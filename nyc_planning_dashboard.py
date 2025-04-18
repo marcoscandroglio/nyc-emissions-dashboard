@@ -31,13 +31,11 @@ import pandas as pd
 import geopandas as gpd
 import plotly.express as px
 import folium
-# from streamlit_folium import folium_static
 import streamlit.components.v1 as components
 from sodapy import Socrata
 
 
 # https://data.cityofnewyork.us/Environment/NYC-Building-Energy-and-Water-Data-Disclosure-for-/5zyy-y8am/about_data
-# Load sample NYC OpenData (Replace with actual data sources)
 @st.cache_data
 def load_data():
     csv_path = "data.csv"
@@ -72,30 +70,6 @@ def load_data():
     return df
 
 data_df = load_data()
-# data_df = pd.DataFrame.from_records(data)
-
-# # Sidebar Filters
-# st.sidebar.header("Filter Options")
-# boroughs = data_df["borough"].dropna().unique()
-# selected_borough = st.sidebar.selectbox("Select Borough", ["All"] + list(boroughs))
-
-# # Filter Data
-# if selected_borough != "All":
-#     emissions_data = data_df[data_df["borough"] == selected_borough]
-
-# # Plotly Visualization: Emissions by Building Type
-# st.subheader("Emissions Trends by Building Type")
-# fig = px.bar(
-#     data_df, x="primary property type", y="net emissions - metric tons",
-#     color="borough", title="Total Emissions by Building Type",
-#     height=800
-# )
-
-# fig.update_layout(
-#     xaxis_tickangle=30
-# )
-
-# st.plotly_chart(fig)
 
 # Interactive Map using Folium
 st.subheader("Zoning & Emissions Heatmap")
@@ -146,7 +120,6 @@ for _, row in filtered_df.iterrows():
         popup=f"{row['primary_property_type']}: {raw_val:.2f} metric tons"
     ).add_to(m)
 
-# folium_static(m)
 # Render Folium map manually with full width
 map_html = m.get_root().render()
 
